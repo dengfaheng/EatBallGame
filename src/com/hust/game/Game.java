@@ -26,7 +26,7 @@ public class Game {
 
     }
     public static final int ORIGNALR = 15;
-    public static final int CIRCLECOUNT = 10;
+    public static final int CIRCLECOUNT = 50;
     public static final int MAX = 100;
     public static final int MIN = 10;
     public static volatile int score = 0;
@@ -52,7 +52,7 @@ public class Game {
         System.out.println("鐜板湪鏄湪playView");
 //        GUI.paintPanel oriView = (GUI.paintPanel) gui.jf.getContentPane();
 
-        final PlayerCircle[] player = {new PlayerCircle(500, 500, ORIGNALR, CIRCLECOUNT, "#FF0000", gui, MAX)};
+        final PlayerCircle[] player = {new PlayerCircle(500, 500, ORIGNALR, CIRCLECOUNT, "#000000", gui, MAX)};
         final Circle[] enemies = new Circle[CIRCLECOUNT];
         score = 0;
         gameplaying = true;
@@ -63,7 +63,7 @@ public class Game {
                 int enermyR = random.nextInt(player[0].getR()) + MIN;
                 do {
                     enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                            - enermyR * 2) + enermyR, enermyR, i, "#" + random.nextInt(100) * 3,
+                            - enermyR * 2) + enermyR, enermyR, i, MyUtils.getRandomColor(random),
                             gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                     System.out.println("boom ID = " + i);
                 } while (boom(enemies[i], player[0]));
@@ -80,7 +80,7 @@ public class Game {
 
                 do {
                     enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                            - enermyR * 2) + enermyR, enermyR, i, "#" + random.nextInt(100) * 3,
+                            - enermyR * 2) + enermyR, enermyR, i,  MyUtils.getRandomColor(random),
                             gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                 } while (boom(enemies[i], player[0]));
             }
@@ -95,6 +95,7 @@ public class Game {
             public synchronized void run() {
                 System.out.println("player moving");
                 while (gameplaying && player[0] != null) {
+                	
                     player[0].move();
                 }
                 System.out.println("player done");
@@ -104,6 +105,12 @@ public class Game {
         class enemyMoving implements Runnable {
             public synchronized void run() {
                 System.out.println("enemies moving");
+                try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                 while (gameplaying && player[0] != null) {
                     for (int i = 0; i < enemies.length; i++) {
                         if (enemies[i] == null) {
@@ -115,7 +122,7 @@ public class Game {
                             }
                             do{
                                 enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                                        - enermyR * 2) + enermyR, enermyR, i, "#" + random.nextInt(100) * 3,
+                                        - enermyR * 2) + enermyR, enermyR, i, MyUtils.getRandomColor(random),
                                         gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                             } while (boom(enemies[i], player[0]));
                             if (i == CIRCLECOUNT / 2) {
@@ -195,7 +202,7 @@ public class Game {
         eM.start();
         cS.start();
         System.out.println("涓荤嚎绋媟unning");
-
+       
 //        gui.jf.setContentPane(oriView);
     }
 

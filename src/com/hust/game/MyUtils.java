@@ -4,66 +4,66 @@ import java.awt.Color;
 import java.util.Random;
 
 public class MyUtils {
-	static Color getRandomColor(Random r) {
+	static String getRandomColor(Random r) {
 		int count=(int) (r.nextInt(18)+1);
-		Color returnColor;
+		String returnColor;
 		switch (count) {
 		case 1:
-			returnColor = Color.green;
+			returnColor = "#00FF00";
 			break;
 		case 2:
-			returnColor = Color.black;
+			returnColor = "#00FFFF";
 			break;
 		case 3:
-			returnColor = Color.blue;
+			returnColor = "#00BFFF";
 			break;
 		case 4:
-			returnColor = Color.CYAN;
+			returnColor = "#87CEFA";
 			break;
 		case 5:
-			returnColor = Color.yellow;
+			returnColor = "#FFFF00";
 			break;
 		case 6:
-			returnColor = Color.red;
+			returnColor = "#FF0000";
 			break;
 		case 7:
-			returnColor = Color.gray;
+			returnColor = "#87CEFF";
 			break;
 		case 8:
-			returnColor = Color.PINK;
+			returnColor = "#B5B5B5";
 			break;
 		case 9:
-			returnColor = Color.magenta;
+			returnColor = "#B4CDCD";
 			break;	
 		case 10:
-			returnColor = Color.gray;
+			returnColor = "#90EE90";
 			break;
 		case 11:
-			returnColor = Color.gray;
+			returnColor = "#FFF0F5";
 			break;
 		case 12:
-			returnColor = Color.PINK;
+			returnColor = "#EED5D2";
 			break;
 		case 13:
-			returnColor = Color.magenta;
+			returnColor = "#7A67EE";
 			break;	
 		case 14:
-			returnColor = Color.gray;
+			returnColor = "#FF7F00";
 			break;	
 		case 15:
-			returnColor = Color.green;
+			returnColor = "#8B658B";
 			break;
 		case 16:
-			returnColor = Color.black;
+			returnColor = "#7FFFD4";
 			break;
 		case 17:
-			returnColor = Color.blue;
+			returnColor = "#6A5ACD";
 			break;
 		case 18:
-			returnColor = Color.CYAN;
+			returnColor = "#9BCD9B";
 			break;	
 		default:
-			returnColor = Color.green;
+			returnColor = "#E6E6FA";
 			break;
 		}
 		
