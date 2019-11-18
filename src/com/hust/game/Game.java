@@ -1,6 +1,8 @@
 package com.hust.game;
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -9,7 +11,7 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+public class Game {
     public boolean boom(Circle a, Circle b) {
         return a.getR() + b.getR() >=
                 Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
@@ -50,7 +52,7 @@ public class Main {
         System.out.println("鐜板湪鏄湪playView");
 //        GUI.paintPanel oriView = (GUI.paintPanel) gui.jf.getContentPane();
 
-        final myCircle[] player = {new myCircle(500, 500, ORIGNALR, CIRCLECOUNT, "#FF0000", gui, MAX)};
+        final PlayerCircle[] player = {new PlayerCircle(500, 500, ORIGNALR, CIRCLECOUNT, "#FF0000", gui, MAX)};
         final Circle[] enemies = new Circle[CIRCLECOUNT];
         score = 0;
         gameplaying = true;
@@ -111,7 +113,7 @@ public class Main {
                             } else {
                                 enermyR = random.nextInt(MAX - player[0].getR()) + player[0].getR();
                             }
-                            do {
+                            do{
                                 enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
                                         - enermyR * 2) + enermyR, enermyR, i, "#" + random.nextInt(100) * 3,
                                         gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
@@ -234,17 +236,15 @@ public class Main {
 
 
     public static void main(String[] args) {
-        final Main mian = new Main();
+        final Game mian = new Game();
         final GUI gui = new GUI();
         System.out.println("gui鍒涘缓瀹屾瘯");
         s_i = new ArrayList<PLAY>();
-//        final Circle logo1 = new Circle(gui.graphWidth / 2 - 50,250,50,0,"#FF0000",gui,0,0);
-//        System.out.println("logo1鍒涘缓瀹屾瘯");
-//        final Circle logo2 = new Circle(gui.graphWidth / 2 + 50,250,50,1,"#000000",gui,0,0);
-//        System.out.println("logo2鍒涘缓瀹屾瘯");
         gameplaying = false;
 
         gui.jf.getContentPane().repaint();
+        gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        gui.jf.setBackground(Color.white);
 
 
         gui.start.addActionListener(new ActionListener() {

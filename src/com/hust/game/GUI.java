@@ -21,7 +21,7 @@ public class GUI {
 
     public int mouseX;
     public int mouseY;
-    public Circle[] willPaint = new Circle[Main.CIRCLECOUNT+1];
+    public Circle[] willPaint = new Circle[Game.CIRCLECOUNT+1];
     public paintPanel conn = new paintPanel(willPaint,"paintPanel");
     public JFrame jf;
     public JButton start;
@@ -74,7 +74,7 @@ public class GUI {
 
     public void updateCircle(Circle c){
         if(c != null){
-        	if(c.getID() == Main.CIRCLECOUNT) {
+        	if(c.getID() == Game.CIRCLECOUNT) {
         		willPaint[c.getID()] = c;
         		jf.getContentPane().repaint();
         	}else {
@@ -93,6 +93,9 @@ public class GUI {
         }
         jf.getContentPane().repaint();
     }
+    
+    
+    
 
 }
 

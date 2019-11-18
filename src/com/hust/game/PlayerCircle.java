@@ -1,8 +1,8 @@
 package com.hust.game;
 
-public class myCircle extends Circle{
+public class PlayerCircle extends Circle{
     private int Max;
-    public myCircle(int X,int Y,int R,int id,String color,GUI gui,int Maxsize){
+    public PlayerCircle(int X,int Y,int R,int id,String color,GUI gui,int Maxsize){
         super(X,Y,R,id,color,gui);
         Max = Maxsize;
     }
