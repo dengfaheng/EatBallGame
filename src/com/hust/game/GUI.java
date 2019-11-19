@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class GUI {
 
-    public final int graphWidth = 1400;
-    public final int graphHeight = 900;
+    public final int graphWidth;
+    public final int graphHeight;
     public final int STARTX = 650;
     public final int STARTY = 450;
     public final int buttonwidth = 100;
@@ -31,6 +31,9 @@ public class GUI {
     public JLabel[] noi = new JLabel[10];
     public GUI(){
         jf = new JFrame("Big ball eat Small ball");
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        graphWidth = kit.getScreenSize().width;
+        graphHeight = kit.getScreenSize().height-60;
         jf.setBounds(0,0,graphWidth,graphHeight);
         jf.setLayout(null);
         jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -50,6 +53,7 @@ public class GUI {
         back.setVisible(false);
         scoreLabel = new JLabel();
         scoreLabel.setVisible(false);
+        scoreLabel.setSize(80, 20);
         conn.add(back);
         conn.add(start);
         conn.add(score);

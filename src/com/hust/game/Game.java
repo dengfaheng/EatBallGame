@@ -3,6 +3,7 @@ package com.hust.game;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -32,8 +33,11 @@ public class Game {
     public static volatile int score = 0;
     public static volatile boolean gameplaying;
     public static volatile boolean lookingscore;
+    
+    public static int enemyMovingSpeed = 100;
+    
     public static Random random;
-    public static String[] mys = {"#00FF00", "#0000FF", "#00FFFF", "#FFFF00", "#FF00FF"};
+    //public static String[] mys = {"#00FF00", "#0000FF", "#00FFFF", "#FFFF00", "#FF00FF"};
     public static int cnt;
     class PLAY {
         public int cnt;
@@ -138,7 +142,7 @@ public class Game {
                     }
                     gui.printAllEnemiesCircles(); //鏇存柊鎵�鏈� 
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(enemyMovingSpeed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -161,7 +165,10 @@ public class Game {
                                     } else {
                                         player[0].resize(-1 * (player[0].getR() - ORIGNALR));
                                     }
-                                    gui.scoreLabel.setText("score = " + score);
+                                    if(score != 0 && score % 10 == 0 && enemyMovingSpeed > 20) {
+                                    	enemyMovingSpeed -= 20;
+                                    }
+                                    gui.scoreLabel.setText("s " + score +" e "+enemyMovingSpeed);
                                     enemies[i] = null;
                                 } else {
                                     gameplaying = false;
@@ -251,7 +258,7 @@ public class Game {
 
         gui.jf.getContentPane().repaint();
         gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        gui.jf.setBackground(Color.white);
+        gui.jf.setBackground(Color.gray);
 
 
         gui.start.addActionListener(new ActionListener() {

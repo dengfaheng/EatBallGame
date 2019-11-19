@@ -18,7 +18,7 @@ public class MyUtils {
 			returnColor = "#00BFFF";
 			break;
 		case 4:
-			returnColor = "#87CEFA";
+			returnColor = "#8A7CDA";
 			break;
 		case 5:
 			returnColor = "#FFFF00";
@@ -27,25 +27,25 @@ public class MyUtils {
 			returnColor = "#FF0000";
 			break;
 		case 7:
-			returnColor = "#87CEFF";
+			returnColor = "#FA663C";
 			break;
 		case 8:
 			returnColor = "#B5B5B5";
 			break;
 		case 9:
-			returnColor = "#B4CDCD";
+			returnColor = "#BF487A";
 			break;	
 		case 10:
 			returnColor = "#90EE90";
 			break;
 		case 11:
-			returnColor = "#FFF0F5";
+			returnColor = "#C978E7";
 			break;
 		case 12:
 			returnColor = "#EED5D2";
 			break;
 		case 13:
-			returnColor = "#7A67EE";
+			returnColor = "#52EA41";
 			break;	
 		case 14:
 			returnColor = "#FF7F00";
@@ -63,7 +63,7 @@ public class MyUtils {
 			returnColor = "#9BCD9B";
 			break;	
 		default:
-			returnColor = "#E6E6FA";
+			returnColor = "#8B0A50";
 			break;
 		}
 		
