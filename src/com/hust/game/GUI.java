@@ -57,16 +57,22 @@ public class GUI {
         }
         back.setBounds(graphWidth / 2 - 50, 300 + 10 * 40, 100, 50);
         back.setVisible(false);
+        
+        Font font=new Font("Monospaced",Font.BOLD,16);//设置字体格式和大小
+
         currentScoreLabel = new JLabel();
         currentScoreLabel.setVisible(false);
+        currentScoreLabel.setFont(font);
         currentScoreLabel.setBounds(10, 40, 100, 20);
         
         maxScoreLabel = new JLabel();
         maxScoreLabel.setVisible(false);
+        maxScoreLabel.setFont(font);
         maxScoreLabel.setBounds(10, 60, 100, 20);
         
         gameLevelLabel = new JLabel();
         gameLevelLabel.setVisible(false);
+        gameLevelLabel.setFont(font);
         gameLevelLabel.setBounds(10, 80, 100, 20);
         
         conn.add(back);
