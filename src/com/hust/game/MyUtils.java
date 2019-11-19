@@ -20,7 +20,7 @@ public class MyUtils {
 		case 4:
 			returnColor = "#8A7CDA";
 			break;
-		case 5:
+		case 5: //yellow , reset player small
 			returnColor = "#FFFF00";
 			break;
 		case 6:
@@ -41,7 +41,7 @@ public class MyUtils {
 		case 11:
 			returnColor = "#C978E7";
 			break;
-		case 12:
+		case 12: //boom
 			returnColor = "#EED5D2";
 			break;
 		case 13:
@@ -56,7 +56,7 @@ public class MyUtils {
 		case 16:
 			returnColor = "#7FFFD4";
 			break;
-		case 17:
+		case 17:      //life
 			returnColor = "#6A5ACD";
 			break;
 		case 18:

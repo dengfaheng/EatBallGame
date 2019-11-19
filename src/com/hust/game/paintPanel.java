@@ -22,11 +22,19 @@ public class paintPanel extends JPanel{
         public void paint(Graphics g){
             super.paint(g);
             for(Circle nowPainting : willPaint){
+            	int maxBoomsNr = 0;
+            	int maxLifesNr = 0;
                 if(nowPainting != null){
 //                    System.out.println(nowPainting.color + " " + nowPainting.getID());
-                	if(nowPainting.getID() == Game.CIRCLECOUNT /2) {
+                	if(nowPainting.color.equals("#EED5D2") && (maxBoomsNr <= 3)) {
                         Image image=Toolkit.getDefaultToolkit().getImage("./res/boom.png");
                         g.drawImage(image, nowPainting.getX(), nowPainting.getY(),  this);//设定位置 
+                        maxBoomsNr++;
+                        continue;
+                	}else if(nowPainting.color.equals("#6A5ACD") && (maxLifesNr <= 3)) {
+                		Image image=Toolkit.getDefaultToolkit().getImage("./res/life.png");
+                        g.drawImage(image, nowPainting.getX(), nowPainting.getY(),  this);//设定位置 
+                        maxLifesNr++;
                         continue;
                 	}
                     g.setColor(Color.decode(nowPainting.color));

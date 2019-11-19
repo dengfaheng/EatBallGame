@@ -171,7 +171,12 @@ public class Game {
                                     gui.scoreLabel.setText("s " + score +" e "+enemyMovingSpeed);
                                     enemies[i] = null;
                                 } else {
-                                    gameplaying = false;
+                                	if(player[0].getLifesNr() > 0) {
+                                		enemies[i] = null;
+                                		player[0].lifesNrDownOne();
+                                	}else {
+                                		gameplaying = false;
+                                	}
                                 }
 
                                 break;
@@ -271,6 +276,7 @@ public class Game {
                 score = 0;
                 gui.scoreLabel.setText("score = " + score);
                 gui.clear();
+                enemyMovingSpeed = 100;
                 try {
                     mian.startGame(gui);
                 } catch (InterruptedException e1) {
