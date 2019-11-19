@@ -21,7 +21,7 @@ public class MyUtils {
 			returnColor = "#8A7CDA";
 			break;
 		case 5: //yellow , reset player small
-			returnColor = "#FFFF00";
+			returnColor = "#FF00FF";
 			break;
 		case 6:
 			returnColor = "#FF0000";
@@ -70,5 +70,9 @@ public class MyUtils {
 		return returnColor;
 
 	}
-	
+//	//获取[start, end]之间的随机数
+//	public static int getRandomCoord(Random r, int start, int end) {
+//		
+//	}
+//	
 }

@@ -39,7 +39,7 @@ public class Circle {
         if(x + radius > gui.graphWidth || x - radius < 0){
             dx = -dx;
         }
-        if(y + radius > gui.graphHeight || y - radius < 0){
+        if(y + radius > gui.graphHeight || y - radius < GUI.PROGRESSWIDTH){
             dy = -dy;
         }
         draw();

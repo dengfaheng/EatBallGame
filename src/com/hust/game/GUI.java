@@ -18,6 +18,8 @@ public class GUI {
     public final int buttonheight = 60;
     public final int EXITX = 650;
     public final int EXITY = 600;
+    public static final int PROGRESSWIDTH = 40;
+    public static final int BOTTOM = 70;
 
     public int mouseX;
     public int mouseY;
@@ -29,12 +31,14 @@ public class GUI {
     public JLabel scoreLabel;
     public JButton back;
     public JLabel[] noi = new JLabel[10];
+    public ProgressUI jProBar;
     public GUI(){
         jf = new JFrame("Big ball eat Small ball");
         Toolkit kit = Toolkit.getDefaultToolkit();
         graphWidth = kit.getScreenSize().width;
-        graphHeight = kit.getScreenSize().height-60;
-        jf.setBounds(0,0,graphWidth,graphHeight);
+        graphHeight = kit.getScreenSize().height-BOTTOM;
+        jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        
         jf.setLayout(null);
         jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         conn.setLayout(null);
@@ -58,6 +62,12 @@ public class GUI {
         conn.add(start);
         conn.add(score);
         conn.add(scoreLabel);
+        jProBar = new ProgressUI();
+        jProBar.getjProgressBar().setSize(graphWidth, PROGRESSWIDTH);
+        jProBar.getjProgressBar().setLocation(0, 0);
+        jProBar.getjProgressBar().setVisible(false);
+        conn.add(jProBar.getjProgressBar());
+        
         jf.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {

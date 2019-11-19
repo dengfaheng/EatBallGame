@@ -22,6 +22,7 @@ public class Game {
         gui.score.setVisible(true);
         gui.start.setVisible(true);
         gui.scoreLabel.setVisible(false);
+        gui.jProBar.getjProgressBar().setVisible(false);
         gui.jf.getContentPane().repaint();
         gui.clear();
 
@@ -65,26 +66,26 @@ public class Game {
         for (int i = 0; i < CIRCLECOUNT; i++) {
             if (i < CIRCLECOUNT / 4 * 3) {
                 int enermyR = random.nextInt(player[0].getR()) + MIN;
-                do {
-                    enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                            - enermyR * 2) + enermyR, enermyR, i, MyUtils.getRandomColor(random),
-                            gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
-                    System.out.println("boom ID = " + i);
-                } while (boom(enemies[i], player[0]));
                 if (i == CIRCLECOUNT / 2) {
                     do {
                         enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                                - enermyR * 2) + enermyR, enermyR, i, "#FF00FF",
+                                - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, "#FFFF00",
+                                gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
+                        System.out.println("boom ID = " + i);
+                    } while (boom(enemies[i], player[0]));
+                }else {
+                	do {
+                        enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
+                                - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, MyUtils.getRandomColor(random),
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                         System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
                 }
             } else {
                 int enermyR = random.nextInt(MAX - player[0].getR()) + player[0].getR();
-
                 do {
                     enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                            - enermyR * 2) + enermyR, enermyR, i,  MyUtils.getRandomColor(random),
+                            - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i,  MyUtils.getRandomColor(random),
                             gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                 } while (boom(enemies[i], player[0]));
             }
@@ -99,7 +100,6 @@ public class Game {
             public synchronized void run() {
                 System.out.println("player moving");
                 while (gameplaying && player[0] != null) {
-                	
                     player[0].move();
                 }
                 System.out.println("player done");
@@ -112,7 +112,6 @@ public class Game {
                 try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
                 while (gameplaying && player[0] != null) {
@@ -126,13 +125,13 @@ public class Game {
                             }
                             do{
                                 enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                                        - enermyR * 2) + enermyR, enermyR, i, MyUtils.getRandomColor(random),
+                                        - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, MyUtils.getRandomColor(random),
                                         gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                             } while (boom(enemies[i], player[0]));
                             if (i == CIRCLECOUNT / 2) {
                                 do {
                                     enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
-                                            - enermyR * 2) + enermyR, enermyR, i, "#FF00FF",
+                                            - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, "#FFFF00",
                                             gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                                     System.out.println("boom ID = " + i);
                                 } while (boom(enemies[i], player[0]));
@@ -146,6 +145,7 @@ public class Game {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    
                 }
                 System.out.println("enemies done");
             }
@@ -155,31 +155,38 @@ public class Game {
             public synchronized void run() {
                 System.out.println("counting score");
                 while (gameplaying) {
+                	//gui.jProBar.addValue(-1);
                     for (int i = 0; i < enemies.length; i++) {
                         if (enemies[i] != null && player[0] != null) {
                             if (boom(enemies[i], player[0])) {
+                            	if(enemies[i].color.equals("#EED5D2")) {
+                            		gameplaying = false;
+                                	break;
+                            	}
+                            	
+                            	if(enemies[i].color.equals("#6A5ACD")) {
+                            		gui.jProBar.addValue(5);
+                            		enemies[i] = null;
+                            		continue;
+                            	}
+                            	
                                 if (player[0].getR() > enemies[i].getR()) {
                                     if (i != CIRCLECOUNT / 2) {
                                         player[0].resize(1);
                                         score++;
+                                        if(score != 0 && score % 10 == 0 && enemyMovingSpeed > 20) {
+                                        	enemyMovingSpeed -= 20;
+                                        }
+                                        gui.jProBar.addValue(3);
                                     } else {
                                         player[0].resize(-1 * (player[0].getR() - ORIGNALR));
-                                    }
-                                    if(score != 0 && score % 10 == 0 && enemyMovingSpeed > 20) {
-                                    	enemyMovingSpeed -= 20;
                                     }
                                     gui.scoreLabel.setText("s " + score +" e "+enemyMovingSpeed);
                                     enemies[i] = null;
                                 } else {
-                                	if(player[0].getLifesNr() > 0) {
-                                		enemies[i] = null;
-                                		player[0].lifesNrDownOne();
-                                	}else {
-                                		gameplaying = false;
-                                	}
+                                	gameplaying = false;
+                                	break;
                                 }
-
-                                break;
                             }
                         }
                     }
@@ -202,6 +209,25 @@ public class Game {
                 System.out.println(score);
             }
         }
+        
+        class progressUI implements Runnable {
+            public synchronized void run() {
+            	try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+            	while(gui.jProBar.getValue() > 0 && gameplaying) {
+            		gui.jProBar.addValue(-1);
+            		try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+            	}
+            	gameplaying = false;
+            }
+        }
 
         playerMovingCircle pmc = new playerMovingCircle();
         Thread playerMC = new Thread(pmc);
@@ -209,10 +235,13 @@ public class Game {
         Thread eM = new Thread(em);
         countScore cs = new countScore();
         Thread cS = new Thread(cs);
+        progressUI pUI = new progressUI();
+        Thread tProgress = new Thread(pUI);
         System.out.println("杩涚▼瀹氫箟瀹屾瘯");
         playerMC.start();
         eM.start();
         cS.start();
+        tProgress.start();
         System.out.println("涓荤嚎绋媟unning");
        
 //        gui.jf.setContentPane(oriView);
@@ -262,7 +291,7 @@ public class Game {
         gameplaying = false;
 
         gui.jf.getContentPane().repaint();
-        gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        //gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         gui.jf.setBackground(Color.gray);
 
 
@@ -277,6 +306,8 @@ public class Game {
                 gui.scoreLabel.setText("score = " + score);
                 gui.clear();
                 enemyMovingSpeed = 100;
+                gui.jProBar.getjProgressBar().setValue(100);
+                gui.jProBar.getjProgressBar().setVisible(true);
                 try {
                     mian.startGame(gui);
                 } catch (InterruptedException e1) {

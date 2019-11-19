@@ -28,12 +28,14 @@ public class paintPanel extends JPanel{
 //                    System.out.println(nowPainting.color + " " + nowPainting.getID());
                 	if(nowPainting.color.equals("#EED5D2") && (maxBoomsNr <= 3)) {
                         Image image=Toolkit.getDefaultToolkit().getImage("./res/boom.png");
+                        nowPainting.radius = 16;
                         g.drawImage(image, nowPainting.getX(), nowPainting.getY(),  this);//设定位置 
                         maxBoomsNr++;
                         continue;
                 	}else if(nowPainting.color.equals("#6A5ACD") && (maxLifesNr <= 3)) {
                 		Image image=Toolkit.getDefaultToolkit().getImage("./res/life.png");
-                        g.drawImage(image, nowPainting.getX(), nowPainting.getY(),  this);//设定位置 
+                		nowPainting.radius = 16;
+                		g.drawImage(image, nowPainting.getX(), nowPainting.getY(),  this);//设定位置 
                         maxLifesNr++;
                         continue;
                 	}
