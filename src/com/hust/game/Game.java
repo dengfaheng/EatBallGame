@@ -3,6 +3,9 @@ package com.hust.game;
 import javax.swing.*;
 
 import java.awt.Color;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,10 +21,11 @@ public class Game {
                 Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
     }
     public void backMain(GUI gui){
+    	gui.jf.getContentPane().setBackground(Color.WHITE);
         gui.back.setVisible(false);
         gui.score.setVisible(true);
         gui.start.setVisible(true);
-        gui.scoreLabel.setVisible(false);
+        gui.currentScoreLabel.setVisible(false);
         gui.jProBar.getjProgressBar().setVisible(false);
         gui.jf.getContentPane().repaint();
         gui.clear();
@@ -53,11 +57,8 @@ public class Game {
     public static ArrayList<PLAY> s_i;
 
     public synchronized void startGame(final GUI gui) throws InterruptedException {
-
-        System.out.println("鐜板湪鏄湪playView");
-//        GUI.paintPanel oriView = (GUI.paintPanel) gui.jf.getContentPane();
-
-        final PlayerCircle[] player = {new PlayerCircle(500, 500, ORIGNALR, CIRCLECOUNT, "#000000", gui, MAX)};
+        
+    	final PlayerCircle[] player = {new PlayerCircle(gui.mouseX, gui.mouseY, ORIGNALR, CIRCLECOUNT, "#000000", gui, MAX)};
         final Circle[] enemies = new Circle[CIRCLECOUNT];
         score = 0;
         gameplaying = true;
@@ -73,6 +74,7 @@ public class Game {
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                         System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
+                    System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
                 }else {
                 	do {
                         enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
@@ -80,6 +82,7 @@ public class Game {
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                         System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
+                	System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
                 }
             } else {
                 int enermyR = random.nextInt(MAX - player[0].getR()) + player[0].getR();
@@ -88,17 +91,23 @@ public class Game {
                             - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i,  MyUtils.getRandomColor(random),
                             gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                 } while (boom(enemies[i], player[0]));
+                System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
             }
 
         }
         gui.jf.getContentPane().repaint();
-
+        System.out.println("h px = "+player[0].getX() +" py = "+player[0].getY());
         System.out.println("start and score has already unvisible");
 
         class playerMovingCircle implements Runnable {
             @Override
             public synchronized void run() {
                 System.out.println("player moving");
+                try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
                 while (gameplaying && player[0] != null) {
                     player[0].move();
                 }
@@ -133,7 +142,6 @@ public class Game {
                                     enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
                                             - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, "#FFFF00",
                                             gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
-                                    System.out.println("boom ID = " + i);
                                 } while (boom(enemies[i], player[0]));
                             }
                         }
@@ -155,33 +163,34 @@ public class Game {
             public synchronized void run() {
                 System.out.println("counting score");
                 while (gameplaying) {
-                	//gui.jProBar.addValue(-1);
                     for (int i = 0; i < enemies.length; i++) {
                         if (enemies[i] != null && player[0] != null) {
                             if (boom(enemies[i], player[0])) {
+                            	//炸弹检测
                             	if(enemies[i].color.equals("#EED5D2")) {
                             		gameplaying = false;
                                 	break;
                             	}
-                            	
+                            	//药 检测
                             	if(enemies[i].color.equals("#6A5ACD")) {
                             		gui.jProBar.addValue(5);
                             		enemies[i] = null;
                             		continue;
                             	}
-                            	
+                            	//普通球检测
                                 if (player[0].getR() > enemies[i].getR()) {
                                     if (i != CIRCLECOUNT / 2) {
                                         player[0].resize(1);
                                         score++;
+                                        gui.currentScoreLabel.setText("当前成绩：" + score);
                                         if(score != 0 && score % 10 == 0 && enemyMovingSpeed > 20) {
                                         	enemyMovingSpeed -= 20;
+                                        	gui.gameLevelLabel.setText("难度等级：" + (100- enemyMovingSpeed));
                                         }
                                         gui.jProBar.addValue(3);
                                     } else {
                                         player[0].resize(-1 * (player[0].getR() - ORIGNALR));
                                     }
-                                    gui.scoreLabel.setText("s " + score +" e "+enemyMovingSpeed);
                                     enemies[i] = null;
                                 } else {
                                 	gameplaying = false;
@@ -204,7 +213,13 @@ public class Game {
                     s_i.add(new PLAY(cnt, score));
                 }
                 player[0] = null;
-
+                gui.jf.getContentPane().setBackground(Color.RED);
+                //gui.jf.getContentPane().repaint();
+                try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
                 backMain(gui);
                 System.out.println(score);
             }
@@ -300,14 +315,18 @@ public class Game {
             public void actionPerformed(ActionEvent e) {
                 gui.start.setVisible(false);
                 gui.score.setVisible(false);
-                gui.scoreLabel.setBounds(50,25,100,10);
-                gui.scoreLabel.setVisible(true);
+                gui.currentScoreLabel.setVisible(true);
+                gui.maxScoreLabel.setVisible(true);
+                gui.gameLevelLabel.setVisible(true);
                 score = 0;
-                gui.scoreLabel.setText("score = " + score);
-                gui.clear();
                 enemyMovingSpeed = 100;
+                gui.currentScoreLabel.setText("当前成绩：" + score);
+                gui.maxScoreLabel.setText(    "历史最高：" + 100);
+                gui.gameLevelLabel.setText(   "难度等级：" + (100-enemyMovingSpeed));
+                gui.clear();
                 gui.jProBar.getjProgressBar().setValue(100);
                 gui.jProBar.getjProgressBar().setVisible(true);
+                
                 try {
                     mian.startGame(gui);
                 } catch (InterruptedException e1) {

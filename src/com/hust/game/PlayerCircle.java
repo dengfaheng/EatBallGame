@@ -5,6 +5,7 @@ public class PlayerCircle extends Circle{
     public PlayerCircle(int X,int Y,int R,int id,String color,GUI gui,int Maxsize){
         super(X,Y,R,id,color,gui);
         Max = Maxsize;
+        draw();
     }
     public void resize(int plusSize){
         if(radius < Max){

@@ -28,7 +28,9 @@ public class GUI {
     public JFrame jf;
     public JButton start;
     public JButton score;
-    public JLabel scoreLabel;
+    public JLabel currentScoreLabel;
+    public JLabel maxScoreLabel;
+    public JLabel gameLevelLabel;
     public JButton back;
     public JLabel[] noi = new JLabel[10];
     public ProgressUI jProBar;
@@ -55,13 +57,25 @@ public class GUI {
         }
         back.setBounds(graphWidth / 2 - 50, 300 + 10 * 40, 100, 50);
         back.setVisible(false);
-        scoreLabel = new JLabel();
-        scoreLabel.setVisible(false);
-        scoreLabel.setSize(80, 20);
+        currentScoreLabel = new JLabel();
+        currentScoreLabel.setVisible(false);
+        currentScoreLabel.setBounds(10, 40, 100, 20);
+        
+        maxScoreLabel = new JLabel();
+        maxScoreLabel.setVisible(false);
+        maxScoreLabel.setBounds(10, 60, 100, 20);
+        
+        gameLevelLabel = new JLabel();
+        gameLevelLabel.setVisible(false);
+        gameLevelLabel.setBounds(10, 80, 100, 20);
+        
         conn.add(back);
         conn.add(start);
         conn.add(score);
-        conn.add(scoreLabel);
+        conn.add(currentScoreLabel);
+        conn.add(maxScoreLabel);
+        conn.add(gameLevelLabel);
+        
         jProBar = new ProgressUI();
         jProBar.getjProgressBar().setSize(graphWidth, PROGRESSWIDTH);
         jProBar.getjProgressBar().setLocation(0, 0);
