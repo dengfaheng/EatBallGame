@@ -21,9 +21,9 @@ public class Game {
                 Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
     }
     public void backMain(GUI gui){
-    	gui.jf.getContentPane().setBackground(Color.WHITE);
-        gui.back.setVisible(false);
-        gui.score.setVisible(true);
+    	gui.jf.getContentPane().setBackground(initColor);
+    	gui.jf.setBounds(gui.graphWidth/2-300, gui.graphHeight/2-400, 600, 800);
+        gui.exit.setVisible(true);
         gui.start.setVisible(true);
         gui.currentScoreLabel.setVisible(false);
         gui.jProBar.getjProgressBar().setVisible(false);
@@ -38,6 +38,7 @@ public class Game {
     public static volatile int score = 0;
     public static volatile boolean gameplaying;
     public static volatile boolean lookingscore;
+    public static Color initColor;
     
     public static int enemyMovingSpeed = 100;
     
@@ -54,7 +55,6 @@ public class Game {
         }
     }
 
-    public static ArrayList<PLAY> s_i;
 
     public synchronized void startGame(final GUI gui) throws InterruptedException {
         
@@ -205,13 +205,7 @@ public class Game {
                     enemies[i] = null;
                 }
                 cnt++;
-                if (s_i.size() > 10) {
-                    if (score > s_i.get(9).score) {
-                        s_i.set(9, new PLAY(cnt, score));
-                    }
-                } else {
-                    s_i.add(new PLAY(cnt, score));
-                }
+
                 player[0] = null;
                 gui.jf.getContentPane().setBackground(Color.RED);
                 //gui.jf.getContentPane().repaint();
@@ -262,59 +256,27 @@ public class Game {
 //        gui.jf.setContentPane(oriView);
     }
 
-    public void printScores(GUI gui) throws IOException, InterruptedException {
-        s_i.sort(new Comparator<PLAY>() {
-            @Override
-            public int compare(PLAY o1, PLAY o2) {
-                if (o1.score > o2.score) {
-                    return -1;
-                } else if (o1.score == o2.score) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-            }
-        });
 
-        for (int i = 0; i < s_i.size(); i++) {
-            gui.noi[i].setText(s_i.get(i).cnt + " " + s_i.get(i).score);
-            gui.noi[i].setVisible(true);
-        }
-
-        gui.back.setVisible(true);
-        gui.back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for(int i = 0; i < gui.noi.length; i++){
-                    if(gui.noi[i] != null){
-                        gui.noi[i].setVisible(false);
-                    }
-                }
-                gui.back.setVisible(false);
-                backMain(gui);
-                lookingscore = false;
-            }
-        });
-    }
 
 
     public static void main(String[] args) {
         final Game mian = new Game();
         final GUI gui = new GUI();
         System.out.println("gui鍒涘缓瀹屾瘯");
-        s_i = new ArrayList<PLAY>();
         gameplaying = false;
-
+        initColor = gui.jf.getContentPane().getBackground();
+        
+        gui.jf.getContentPane().getGraphics().setColor(Color.green);
+        gui.jf.getContentPane().getGraphics().drawOval(180,300,20,20);
+        
         gui.jf.getContentPane().repaint();
-        //gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-        gui.jf.setBackground(Color.gray);
-
+        
 
         gui.start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gui.start.setVisible(false);
-                gui.score.setVisible(false);
+                gui.exit.setVisible(false);
                 gui.currentScoreLabel.setVisible(true);
                 gui.maxScoreLabel.setVisible(true);
                 gui.gameLevelLabel.setVisible(true);
@@ -326,7 +288,7 @@ public class Game {
                 gui.clear();
                 gui.jProBar.getjProgressBar().setValue(100);
                 gui.jProBar.getjProgressBar().setVisible(true);
-                
+                gui.jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
                 try {
                     mian.startGame(gui);
                 } catch (InterruptedException e1) {
@@ -337,23 +299,12 @@ public class Game {
             }
         });
 
-        gui.score.addActionListener(new ActionListener() {
+        gui.exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.start.setVisible(false);
-                gui.score.setVisible(false);
-                lookingscore = true;
-                try {
-                    mian.printScores(gui);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                System.exit(0);
             }
         });
-
-        System.out.println("涓荤嚎绋嬮兘宸茬粡鍒拌繖鍎夸簡");
     }
 
 }

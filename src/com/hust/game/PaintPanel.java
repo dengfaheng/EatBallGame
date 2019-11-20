@@ -8,10 +8,10 @@ import java.awt.Toolkit;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
-public class paintPanel extends JPanel{
+public class PaintPanel extends JPanel{
         String name;
         private Circle[] willPaint;
-        public paintPanel(Circle[] willPaint,String name){
+        public PaintPanel(Circle[] willPaint,String name){
             this.willPaint = willPaint;
             this.name = name;
         }

@@ -12,72 +12,78 @@ public class GUI {
 
     public final int graphWidth;
     public final int graphHeight;
-    public final int STARTX = 650;
-    public final int STARTY = 450;
+    public final int STARTX = 180;
+    public final int STARTY = 500;
     public final int buttonwidth = 100;
     public final int buttonheight = 60;
-    public final int EXITX = 650;
-    public final int EXITY = 600;
+    public final int EXITX  = 330;
+    public final int EXITY  = 500;
     public static final int PROGRESSWIDTH = 40;
     public static final int BOTTOM = 70;
 
     public int mouseX;
     public int mouseY;
     public Circle[] willPaint = new Circle[Game.CIRCLECOUNT+1];
-    public paintPanel conn = new paintPanel(willPaint,"paintPanel");
+    public PaintPanel conn = new PaintPanel(willPaint,"paintPanel");
     public JFrame jf;
     public JButton start;
-    public JButton score;
+    public JButton exit;
     public JLabel currentScoreLabel;
     public JLabel maxScoreLabel;
     public JLabel gameLevelLabel;
-    public JButton back;
-    public JLabel[] noi = new JLabel[10];
     public ProgressUI jProBar;
     public GUI(){
         jf = new JFrame("Big ball eat Small ball");
         Toolkit kit = Toolkit.getDefaultToolkit();
         graphWidth = kit.getScreenSize().width;
         graphHeight = kit.getScreenSize().height-BOTTOM;
-        jf.setExtendedState(JFrame.MAXIMIZED_BOTH); 
         
+        jf.setBounds(graphWidth/2-300, graphHeight/2-400, 600, 800);
+
         jf.setLayout(null);
         jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         conn.setLayout(null);
-        start = new JButton("start");
-        start.setBounds(STARTX,STARTY,buttonwidth,buttonheight);
-        score = new JButton("score");
-        score.setBounds(EXITX,EXITY,buttonwidth,buttonheight);
-        back = new JButton("Back");
-        for(int i = 0; i < noi.length; i++){
-            noi[i] = new JLabel();
-            noi[i].setBounds(graphWidth / 2 - 50, 300 + i * 40, 100, 30);
-            noi[i].setVisible(false);
-            conn.add(noi[i]);
-        }
-        back.setBounds(graphWidth / 2 - 50, 300 + 10 * 40, 100, 50);
-        back.setVisible(false);
+        start = new JButton();
+        start.setBounds(STARTX,STARTY,64,64);
+        exit = new JButton();
+        exit.setBounds(EXITX,EXITY,64,64);
         
+        start.setIcon(new ImageIcon("./res/start.png"));
+        start.setMargin(new Insets(0,0,0,0));//将边框外的上下左右空间设置为0  
+        start.setIconTextGap(0);//将标签中显示的文本和图标之间的间隔量设置为0  
+        start.setBorderPainted(false);//不打印边框  
+        start.setBorder(null);//除去边框  
+        start.setFocusPainted(false);//除去焦点的框  
+        start.setContentAreaFilled(false);//除去默认的背景填充 
+        
+        
+        exit.setIcon(new ImageIcon("./res/exit.png"));
+        exit.setMargin(new Insets(0,0,0,0));//将边框外的上下左右空间设置为0  
+        exit.setIconTextGap(0);//将标签中显示的文本和图标之间的间隔量设置为0  
+        exit.setBorderPainted(false);//不打印边框  
+        exit.setBorder(null);//除去边框  
+        exit.setFocusPainted(false);//除去焦点的框  
+        exit.setContentAreaFilled(false);//除去默认的背景填充 
+
         Font font=new Font("Monospaced",Font.BOLD,16);//设置字体格式和大小
 
         currentScoreLabel = new JLabel();
         currentScoreLabel.setVisible(false);
         currentScoreLabel.setFont(font);
-        currentScoreLabel.setBounds(10, 40, 100, 20);
+        currentScoreLabel.setBounds(10, 40, 200, 20);
         
         maxScoreLabel = new JLabel();
         maxScoreLabel.setVisible(false);
         maxScoreLabel.setFont(font);
-        maxScoreLabel.setBounds(10, 60, 100, 20);
+        maxScoreLabel.setBounds(10, 60, 200, 20);
         
         gameLevelLabel = new JLabel();
         gameLevelLabel.setVisible(false);
         gameLevelLabel.setFont(font);
-        gameLevelLabel.setBounds(10, 80, 100, 20);
+        gameLevelLabel.setBounds(10, 80, 200, 20);
         
-        conn.add(back);
         conn.add(start);
-        conn.add(score);
+        conn.add(exit);
         conn.add(currentScoreLabel);
         conn.add(maxScoreLabel);
         conn.add(gameLevelLabel);
@@ -102,8 +108,10 @@ public class GUI {
         jf.setContentPane(conn);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        
     }
+
+
     
 
     public void updateCircle(Circle c){
