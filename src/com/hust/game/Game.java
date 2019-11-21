@@ -28,8 +28,6 @@ public class Game {
     	gui.jf.setBounds(gui.graphWidth/2-300, gui.graphHeight/2-400, 600, 800);
         gui.exit.setVisible(true);
         gui.start.setVisible(true);
-        //gui.currentScoreLabel.setVisible(true);
-        //gui.gameLevelLabel.setVisible(false);
         gui.eatYourBalls.setText("再试试看吧！");
         gui.eatYourBalls.setVisible(true);
         gui.eatYourBalls.setBounds(120, 120, 500, 100);
@@ -82,7 +80,6 @@ public class Game {
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                         System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
-                    System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
                 }else {
                 	do {
                         enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
@@ -90,7 +87,6 @@ public class Game {
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
                         System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
-                	System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
                 }
             } else {
                 int enermyR = random.nextInt(MAX - player[0].getR()) + player[0].getR();
@@ -99,7 +95,6 @@ public class Game {
                             - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i,  MyUtils.getRandomColor(random),
                             gui, random.nextInt(3) + 1, random.nextInt(3) + 1);
                 } while (boom(enemies[i], player[0]));
-                System.out.println("g px = "+player[0].getX() +" py = "+player[0].getY());
             }
 
         }
