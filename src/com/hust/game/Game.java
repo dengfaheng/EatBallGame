@@ -32,6 +32,7 @@ public class Game {
         gui.eatYourBalls.setVisible(true);
         gui.eatYourBalls.setBounds(120, 120, 500, 100);
         gui.jProBar.getjProgressBar().setVisible(false);
+        gui.maxScoreLabel.setText("历史最高："+historyScore);
         gui.clear();
         new Circle(240, 350, 80, Game.CIRCLECOUNT+1, "#00CED1",gui, 0, 0);
         new Circle(350, 380, 40, Game.CIRCLECOUNT+2, "#ADFF2F",gui, 0, 0);
@@ -78,14 +79,12 @@ public class Game {
                         enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
                                 - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, "#FFFF00",
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
-                        System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
                 }else {
                 	do {
                         enemies[i] = new Circle(random.nextInt(gui.graphWidth - enermyR * 2) + enermyR, random.nextInt(gui.graphHeight
                                 - enermyR * 2-GUI.BOTTOM) + enermyR+GUI.PROGRESSWIDTH, enermyR, i, MyUtils.getRandomColor(random),
                                 gui, random.nextInt(10) + 1, random.nextInt(10) + 1);
-                        System.out.println("boom ID = " + i);
                     } while (boom(enemies[i], player[0]));
                 }
             } else {
@@ -99,7 +98,6 @@ public class Game {
 
         }
         gui.jf.getContentPane().repaint();
-        System.out.println("h px = "+player[0].getX() +" py = "+player[0].getY());
         System.out.println("start and score has already unvisible");
 
         class playerMovingCircle implements Runnable {

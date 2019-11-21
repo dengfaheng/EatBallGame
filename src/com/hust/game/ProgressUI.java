@@ -23,13 +23,13 @@ public class ProgressUI {
     	progressvalue=this.jProgressBar.getValue() + num;
     	this.jProgressBar.setValue(progressvalue);
     	if(progressvalue<20){
-        	this.jProgressBar.setForeground(Color.BLUE);
+        	this.jProgressBar.setForeground(Color.RED);
         }
         else if(progressvalue<40){
         	this.jProgressBar.setForeground(Color.YELLOW);
         } 
         else if(progressvalue<60){
-        	this.jProgressBar.setForeground(Color.RED);
+        	this.jProgressBar.setForeground(Color.BLUE);
         } 
         else if(progressvalue<80){
         	this.jProgressBar.setForeground(Color.GREEN);
