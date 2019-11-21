@@ -23,7 +23,7 @@ public class GUI {
 
     public int mouseX;
     public int mouseY;
-    public Circle[] willPaint = new Circle[Game.CIRCLECOUNT+1];
+    public Circle[] willPaint = new Circle[Game.CIRCLECOUNT+3];
     public PaintPanel conn = new PaintPanel(willPaint,"paintPanel");
     public JFrame jf;
     public JButton start;
@@ -31,6 +31,7 @@ public class GUI {
     public JLabel currentScoreLabel;
     public JLabel maxScoreLabel;
     public JLabel gameLevelLabel;
+    public JLabel eatYourBalls;
     public ProgressUI jProBar;
     public GUI(){
         jf = new JFrame("Big ball eat Small ball");
@@ -65,28 +66,36 @@ public class GUI {
         exit.setFocusPainted(false);//除去焦点的框  
         exit.setContentAreaFilled(false);//除去默认的背景填充 
 
-        Font font=new Font("Monospaced",Font.BOLD,16);//设置字体格式和大小
-
+        Font font1=MyUtils.getSelfDefinedFont("./res/hkww.ttc",  18);
+        Font font2=MyUtils.getSelfDefinedFont("./res/font.ttf",  60);
+        
         currentScoreLabel = new JLabel();
         currentScoreLabel.setVisible(false);
-        currentScoreLabel.setFont(font);
+        currentScoreLabel.setFont(font1);
         currentScoreLabel.setBounds(10, 40, 200, 20);
         
         maxScoreLabel = new JLabel();
         maxScoreLabel.setVisible(false);
-        maxScoreLabel.setFont(font);
+        maxScoreLabel.setFont(font1);
         maxScoreLabel.setBounds(10, 60, 200, 20);
         
         gameLevelLabel = new JLabel();
         gameLevelLabel.setVisible(false);
-        gameLevelLabel.setFont(font);
+        gameLevelLabel.setFont(font1);
         gameLevelLabel.setBounds(10, 80, 200, 20);
+        
+        eatYourBalls = new JLabel("吃掉比你小的球！");
+        eatYourBalls.setVisible(true);
+        eatYourBalls.setFont(font2);
+        eatYourBalls.setBounds(60, 120, 500, 100);
+        eatYourBalls.setForeground(Color.decode("#8A2BE2"));
         
         conn.add(start);
         conn.add(exit);
         conn.add(currentScoreLabel);
         conn.add(maxScoreLabel);
         conn.add(gameLevelLabel);
+        conn.add(eatYourBalls);
         
         jProBar = new ProgressUI();
         jProBar.getjProgressBar().setSize(graphWidth, PROGRESSWIDTH);

@@ -9,6 +9,9 @@ import java.awt.PointerInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -25,16 +28,23 @@ public class Game {
     	gui.jf.setBounds(gui.graphWidth/2-300, gui.graphHeight/2-400, 600, 800);
         gui.exit.setVisible(true);
         gui.start.setVisible(true);
-        gui.currentScoreLabel.setVisible(false);
+        //gui.currentScoreLabel.setVisible(true);
+        //gui.gameLevelLabel.setVisible(false);
+        gui.eatYourBalls.setText("再试试看吧！");
+        gui.eatYourBalls.setVisible(true);
+        gui.eatYourBalls.setBounds(120, 120, 500, 100);
         gui.jProBar.getjProgressBar().setVisible(false);
-        gui.jf.getContentPane().repaint();
         gui.clear();
+        new Circle(240, 350, 80, Game.CIRCLECOUNT+1, "#00CED1",gui, 0, 0);
+        new Circle(350, 380, 40, Game.CIRCLECOUNT+2, "#ADFF2F",gui, 0, 0);
+        gui.jf.getContentPane().repaint();
 
     }
     public static final int ORIGNALR = 15;
     public static final int CIRCLECOUNT = 50;
     public static final int MAX = 100;
     public static final int MIN = 10;
+    public static int historyScore = 0;
     public static volatile int score = 0;
     public static volatile boolean gameplaying;
     public static volatile boolean lookingscore;
@@ -43,8 +53,6 @@ public class Game {
     public static int enemyMovingSpeed = 100;
     
     public static Random random;
-    //public static String[] mys = {"#00FF00", "#0000FF", "#00FFFF", "#FFFF00", "#FF00FF"};
-    public static int cnt;
     class PLAY {
         public int cnt;
         public int score;
@@ -183,8 +191,14 @@ public class Game {
                                         player[0].resize(1);
                                         score++;
                                         gui.currentScoreLabel.setText("当前成绩：" + score);
-                                        if(score != 0 && score % 10 == 0 && enemyMovingSpeed > 20) {
-                                        	enemyMovingSpeed -= 20;
+                                        if(score != 0 && score % 10 == 0) {
+                                        	if(enemyMovingSpeed > 40) {
+                                        		enemyMovingSpeed -= 20;
+                                        	}else if(enemyMovingSpeed > 20) {
+                                        		enemyMovingSpeed -= 5;
+                                        	}else if(enemyMovingSpeed > 1) {
+                                        		enemyMovingSpeed -= 1;
+                                        	}
                                         	gui.gameLevelLabel.setText("难度等级：" + (100- enemyMovingSpeed));
                                         }
                                         gui.jProBar.addValue(3);
@@ -204,8 +218,11 @@ public class Game {
                 for (int i = 0; i < enemies.length; i++) {
                     enemies[i] = null;
                 }
-                cnt++;
 
+                if(score > historyScore) {
+                	historyScore = score;
+                }
+                
                 player[0] = null;
                 gui.jf.getContentPane().setBackground(Color.RED);
                 //gui.jf.getContentPane().repaint();
@@ -266,9 +283,11 @@ public class Game {
         gameplaying = false;
         initColor = gui.jf.getContentPane().getBackground();
         
-        gui.jf.getContentPane().getGraphics().setColor(Color.green);
-        gui.jf.getContentPane().getGraphics().drawOval(180,300,20,20);
+        historyScore = MyUtils.readRecordFromFile("./res/record.txt");
         
+        new Circle(240, 350, 80, Game.CIRCLECOUNT+1, "#00CED1",gui, 0, 0);
+        new Circle(350, 380, 40, Game.CIRCLECOUNT+2, "#ADFF2F",gui, 0, 0);
+
         gui.jf.getContentPane().repaint();
         
 
@@ -277,13 +296,14 @@ public class Game {
             public void actionPerformed(ActionEvent e) {
                 gui.start.setVisible(false);
                 gui.exit.setVisible(false);
+                gui.eatYourBalls.setVisible(false);
                 gui.currentScoreLabel.setVisible(true);
                 gui.maxScoreLabel.setVisible(true);
                 gui.gameLevelLabel.setVisible(true);
                 score = 0;
                 enemyMovingSpeed = 100;
                 gui.currentScoreLabel.setText("当前成绩：" + score);
-                gui.maxScoreLabel.setText(    "历史最高：" + 100);
+                gui.maxScoreLabel.setText(    "历史最高：" + historyScore);
                 gui.gameLevelLabel.setText(   "难度等级：" + (100-enemyMovingSpeed));
                 gui.clear();
                 gui.jProBar.getjProgressBar().setValue(100);
@@ -294,14 +314,21 @@ public class Game {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-
-
             }
+        });
+        
+        gui.jf.addWindowListener(new WindowAdapter() {
+        	@Override
+        	public void windowClosing(WindowEvent e) {
+        		MyUtils.writeRecordInFile("./res/record.txt", historyScore);
+             }
+
         });
 
         gui.exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	MyUtils.writeRecordInFile("./res/record.txt", historyScore);
                 System.exit(0);
             }
         });
